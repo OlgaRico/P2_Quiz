@@ -32,7 +32,26 @@ exports.listCmd = rl => {
   });
   rl.prompt();
 }
-
+/**
+ * Funcion que devuelve una promesa que valida que se ha introducido un valor para el parametro y lo convierte
+ * a numero entero. Devuelve el valor de id asociado al parametro.
+ *
+ * @param id Parametro con el indice a validar.
+ */
+const validateId = id => {
+    return new Sequelize.Promise((resolve,reject) => {
+        if (typeof id == "undefined"){
+            reject(new Error (`Falta el parámetro <id>.`));
+        }else {
+            id = parseInt(id);
+            if (Number.isNaN(id)){
+                reject(new Error(`El valor del parámetro <id> no es número.`));
+            }else {
+                resolve(id);
+            }
+        }
+    });
+};
 
 /**
  * Muestra el quiz indicado en el parámetro: la pregunta y la respuesta.
@@ -55,27 +74,6 @@ exports.showCmd = (rl,id) => {
         .then(() => {
             rl.prompt();
         });
-};
-
-/**
- * Funcion que devuelve una promesa que valida que se ha introducido un valor para el parametro y lo convierte
- * a numero entero. Devuelve el valor de id asociado al parametro.
- *
- * @param id Parametro con el indice a validar.
- */
-const validateId = id => {
-    return new Sequelize.Promise((resolve,reject) => {
-        if (typeof id == "undefined"){
-            reject(new Error (`Falta el parámetro <id>.`));
-        }else {
-            id = parseInt(id);
-            if (Number.isNaN(id)){
-                reject(new Error(`El valor del parámetro <id> no es número.`));
-            }else {
-                resolve(id);
-            }
-        }
-    });
 };
 
 /**
